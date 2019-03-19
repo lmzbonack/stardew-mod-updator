@@ -8,7 +8,7 @@ class mod_manifest:
 
     def __init__(self):
         self.mod_directory = mod_directory
-        self.mod_list = []
+        self.installed_mods = {}
 
     def sanitize(self, dirtyString):
         for char in dirtyString:
@@ -25,5 +25,6 @@ class mod_manifest:
                 fileString = fi.read()
                 cleanFileString = self.sanitize(fileString)
                 des = json.loads(cleanFileString)
-                self.mod_list.append(des)
+                self.installed_mods[des["Name"]] = des
                 fi.close()
+        return self.installed_mods
