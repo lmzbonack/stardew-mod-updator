@@ -2,6 +2,8 @@
 import os
 import json
 
+from win32api import GetFileVersionInfo, LOWORD, HIWORD
+
 mod_directory = "F:\Program Files (x86)\Steam\steamapps\common\Stardew Valley\Mods"
 
 class mod_manifest:
@@ -28,3 +30,21 @@ class mod_manifest:
                 self.installed_mods[des["Name"]] = des
                 fi.close()
         return self.installed_mods
+
+    def get_current_version(self, filename):
+        version = ".".join([str (i) for i in self.get_current_version_helper(filename)])
+        print(version)
+        return version
+
+    def get_current_version_helper(self, filename):
+        try:
+            info = GetFileVersionInfo(filename, "\\")
+            ms = info['FileVersionMS']
+            ls = info['FileVersionLS']
+            return HIWORD (ms), LOWORD (ms), HIWORD (ls), LOWORD (ls)
+        except:
+            return "Unknown version"
+
+MM = mod_manifest()
+
+MM.get_current_version('F:\Program Files (x86)\Steam\steamapps\common\Stardew Valley\StardewModdingAPI.exe')
