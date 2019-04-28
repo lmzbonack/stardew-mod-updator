@@ -12,6 +12,7 @@ class updator:
         self.outdated_mods = []
     
     def get_tracked_mods(self):
+        '''Fetch all the mods that the user is tracking and load them into memory'''
         tracked_mods = self.api.get_tracked_mods()
         for mod in tracked_mods:
             m_id = mod["mod_id"]
@@ -24,14 +25,16 @@ class updator:
             }
             mod_name = mod_details["name"]
             self.tracked_mods[mod_name] = mod_obj
-        print("Found " + str(len(self.tracked_mods)) + " tracked mod(s)")
+        #print("Found " + str(len(self.tracked_mods)) + " tracked mod(s)")
 
     def get_installed_mods(self):
+        '''Find all the mods that are installed locally'''
         self.local_mods.discover_mods()
-        print("Found " + str(len(self.local_mods.installed_mods)) + " installed mod(s)")
+        #print("Found " + str(len(self.local_mods.installed_mods)) + " installed mod(s)")
 
 
     def compare_versions(self):
+        '''Compare tracked mods to the installed mods look for outdated mods and untracked mods'''
         for key in self.local_mods.installed_mods:
             if key not in self.tracked_mods:
                 self.untracked_mods.append(self.local_mods.installed_mods[key]["Name"])
@@ -41,6 +44,8 @@ class updator:
                     self.outdated_mods.append(self.tracked_mods[key])
         
         print("Found " + str(len(self.outdated_mods)) + " outdated mod(s)")
+        print(self.outdated_mods)
+        print("Found " + str(len(self.untracked_mods)) + " untracked mod(s)")
         print(self.untracked_mods)
         return self.outdated_mods
 

@@ -17,11 +17,13 @@ class api_wrappper:
         )
 
     def get_mod_file_details(self, mod_id):
+        # Returns the details for a specific mod based on an id
         url = self.base_url + "games/stardewvalley/mods/{}.json".format(mod_id)
         response = self.session.request("GET", url)
         return json.loads(response.text)
 
     def get_tracked_mods(self):
+        # Returns the mods that an account has tracked.
         url = self.base_url + "user/tracked_mods.json"
         response = self.session.request("GET", url)
         return json.loads(response.text)
