@@ -15,16 +15,17 @@ class updator:
         '''Fetch all the mods that the user is tracking and load them into memory'''
         tracked_mods = self.api.get_tracked_mods()
         for mod in tracked_mods:
-            m_id = mod["mod_id"]
-            mod_details = self.api.get_mod_file_details(m_id)
-            mod_obj = {
-                "Id": mod_details["mod_id"],
-                "Name": mod_details["name"],
-                "Version": mod_details["version"],
-                "Game_Id": mod_details["game_id"]
-            }
-            mod_name = mod_details["name"]
-            self.tracked_mods[mod_name] = mod_obj
+            if mod["domain_name"] == "stardewvalley":
+                m_id = mod["mod_id"]
+                mod_details = self.api.get_mod_file_details(m_id)
+                mod_obj = {
+                    "Id": mod_details["mod_id"],
+                    "Name": mod_details["name"],
+                    "Version": mod_details["version"],
+                    "Game_Id": mod_details["game_id"]
+                }
+                mod_name = mod_details["name"]
+                self.tracked_mods[mod_name] = mod_obj
         #print("Found " + str(len(self.tracked_mods)) + " tracked mod(s)")
 
     def get_installed_mods(self):

@@ -3,6 +3,8 @@ import json
 
 from win32api import GetFileVersionInfo, LOWORD, HIWORD
 
+from constants import SMAPI_EXI
+
 class smapi_fetcher:
 
     def __init__(self):
@@ -53,4 +55,4 @@ SF = smapi_fetcher()
 
 SF.download_installer()
 
-SF.get_current_version('F:\Program Files (x86)\Steam\steamapps\common\Stardew Valley\StardewModdingAPI.exe')
+SF.get_current_version(SMAPI_EXI)
