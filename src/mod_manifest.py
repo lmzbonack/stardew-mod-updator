@@ -2,12 +2,12 @@
 import os
 import json
 
-mod_directory = "F:\Program Files (x86)\Steam\steamapps\common\Stardew Valley\Mods"
+from constants import MOD_DIRECTORY
 
 class mod_manifest:
 
     def __init__(self):
-        self.mod_directory = mod_directory
+        self.mod_directory = MOD_DIRECTORY
         self.installed_mods = {}
 
     def sanitize(self, dirtyString):
@@ -21,7 +21,7 @@ class mod_manifest:
 
     def discover_mods(self):
         '''Finds mods that are installed on the client'''
-        for dirpath, dirnames, filenames in os.walk(mod_directory):
+        for dirpath, dirnames, filenames in os.walk(self.mod_directory):
             for filename in [f for f in filenames if f == "manifest.json"]:
                 fi = open(os.path.join(dirpath, filename), "r")
                 fileString = fi.read()
@@ -29,5 +29,8 @@ class mod_manifest:
                 des = json.loads(cleanFileString)
                 self.installed_mods[des["Name"]] = des
                 fi.close()
+        print(self.installed_mods)
         return self.installed_mods
 
+MM = mod_manifest()
+MM.discover_mods()
